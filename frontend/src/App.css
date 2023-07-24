@@ -36,3 +36,80 @@
     transform: rotate(360deg);
   }
 }
+/* Import Google Font - Poppins */
+.wrapper {
+  width: 400px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px 25px 40px;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.1);
+}
+
+.range-input {
+  position: relative;
+}
+
+.range-input input {
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  top: -5px;
+  background: none;
+  pointer-events: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.app {
+  /* styles for .app */
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 200px;
+  height: 200px;
+  margin-right: 20px;
+}
+
+.app-title {
+  font-size: 24px;
+}
+
+.app-body {
+  display: flex;
+}
+
+.left-panel {
+  width: 15%;
+  font-size: 14px;
+}
+
+.file-selector, .fetch-button, .api-params {
+  margin-bottom: 10px;
+}
+
+.custom-select, .custom-button, .api-params input[type="text"] {
+  font-size: 14px;
+  padding: 5px;
+}
+
+.custom-button {
+  padding: 5px 10px;
+}
+
+.map-container {
+  width: 85%;
+  height: 600px;
+  flex-grow: 1;
+}
+
+.map {
+  height: 100%;
+  width: 100%;
+}
+
+
