@@ -66,7 +66,7 @@ function App() {
         map.removeLayer(geoLayer);
       }
       shapefile
-        .read(`http://localhost:8003/test_react/data/${selectedFile}`)
+        .read(`http://localhost:8003/${selectedFile}`)
         .then(({ features }) => {
           const newGeoLayer = L.geoJSON(features, {
             style: (feature) => {
@@ -99,7 +99,7 @@ function App() {
 
   function fetchData() {
     axios
-      .get('http://localhost:8000/api/endpoint', {
+      .get('http://localhost:8000/api/endpoint/emp', {
         params: apiParams,
       })
       .then((response) => {
