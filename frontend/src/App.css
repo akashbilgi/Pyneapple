@@ -69,7 +69,6 @@ body {
   backdrop-filter: blur(10px);
   z-index: 3;
 }
-
 .map-container {
   position: absolute;
   top: 0;
