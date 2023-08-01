@@ -118,12 +118,6 @@ function UI({
             {apiType === 'emp' ?
               <React.Fragment>
                 <ParameterInput
-                  label='file_name'
-                  id='file_name'
-                  value={apiParams['file_name']}
-                  handleChange={handleApiParamChange}
-                />
-                <ParameterInput
                   label='disname'
                   id='disname'
                   value={apiParams['disname']}
