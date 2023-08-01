@@ -1,42 +1,93 @@
-.App {
-  text-align: center;
+/* Import Google Font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  height: 100vh;
+  width: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.app-header {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: flex-start;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(90deg, rgba(0, 128, 0, 0.5), rgba(173, 255, 47, 0.5), rgba(255, 255, 0, 0.5), rgba(64, 224, 208, 0.5), rgba(173, 255, 47, 0.5));
   color: white;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
 }
 
-.App-link {
-  color: #61dafb;
+
+.logo {
+  height: 10vmin;
+  background-image: linear-gradient(45deg, #00ff00, #ffff00, #1e90ff);
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.app-title {
+  font-size: calc(12px + 1vmin);
 }
-/* Import Google Font - Poppins */
+
+.app-body {
+  position: relative;
+  display: flex;
+  height: calc(100% - 60px);
+  width: 100%;
+  z-index: 2;
+}
+
+.left-panel {
+  position: absolute;
+  width: 300px;
+  height: 100%;
+  font-size: 14px;
+  padding: 20px;
+  color: #333; /* Change from white to dark grey */
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  z-index: 3;
+}
+
+.map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+#mapid {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+
 .wrapper {
   width: 400px;
   background: #fff;
@@ -59,57 +110,3 @@
   -webkit-appearance: none;
   -moz-appearance: none;
 }
-
-.app {
-  /* styles for .app */
-}
-
-.app-header {
-  display: flex;
-  align-items: center;
-}
-
-.logo {
-  width: 200px;
-  height: 200px;
-  margin-right: 20px;
-}
-
-.app-title {
-  font-size: 24px;
-}
-
-.app-body {
-  display: flex;
-}
-
-.left-panel {
-  width: 15%;
-  font-size: 14px;
-}
-
-.file-selector, .fetch-button, .api-params {
-  margin-bottom: 10px;
-}
-
-.custom-select, .custom-button, .api-params input[type="text"] {
-  font-size: 14px;
-  padding: 5px;
-}
-
-.custom-button {
-  padding: 5px 10px;
-}
-
-.map-container {
-  width: 85%;
-  height: 600px;
-  flex-grow: 1;
-}
-
-.map {
-  height: 100%;
-  width: 100%;
-}
-
-
