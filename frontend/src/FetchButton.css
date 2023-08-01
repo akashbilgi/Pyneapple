@@ -1,0 +1,27 @@
+.fetch-button {
+    transition: all 0.3s;
+    background: #007BFF;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1em;
+  }
+  
+  .fetch-button-enter {
+    transform: scale(0.9);
+  }
+  
+  .fetch-button-enter-active {
+    transform: scale(1);
+  }
+  
+  .fetch-button-exit {
+    transform: scale(1);
+  }
+  
+  .fetch-button-exit-active {
+    transform: scale(0.9);
+  }
+  

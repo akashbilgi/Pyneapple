@@ -78,10 +78,10 @@ const Slider = ({ apiParams, handleApiParamChange, labels }) => (
 
 const apiTypeParams = {
   emp: ['file_name', 'disname', 'minName', 'minLow', 'minHigh', 'maxName', 'maxLow', 'maxHigh', 'avgName', 'avgLow', 'avgHigh', 'sumName', 'sumLow', 'sumHigh', 'countName','countLow', 'countHigh'],
-  generalizedP: ['file_name', 'sim_attr', 'ext_attr', 'threshold', 'p'],
-  libraryMaxP: ['file_name', 'attr_name', 'threshold_name', 'threshold'],
-  ScalableMaxP: ['file_name', 'sim_attr', 'ext_attr', 'threshold'],
-  compareMaxP: ['file_name', 'sim_attr', 'ext_attr', 'threshold']
+  generalizedP: ['sim_attr', 'ext_attr', 'threshold', 'p'],
+  libraryMaxP: ['attr_name', 'threshold_name', 'threshold'],
+  ScalableMaxP: ['sim_attr', 'ext_attr', 'threshold'],
+  compareMaxP: ['sim_attr', 'ext_attr', 'threshold']
 };
 
 function UI({
