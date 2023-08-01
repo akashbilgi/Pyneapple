@@ -32,7 +32,7 @@ const ApiTypeSelector = ({ apiType, handleApiTypeChange }) => (
       className="custom-select"
     >
       <option value="emp">emp</option>
-      <option value="generalisedP">generalisedP</option>
+      <option value="generalizedP">generalizedP</option>
       <option value="libraryMaxP">libraryMaxP</option>
       <option value="scalableMaxP">scalableMaxP</option>
       <option value="compareMaxP">compareMaxP</option>
@@ -76,7 +76,14 @@ const Slider = ({ apiParams, handleApiParamChange, labels }) => (
   </div>
 );
 
-const paramLabels = ['min', 'avg', 'sum', 'count', 'max'];
+const apiTypeParams = {
+  emp: ['file_name', 'disname', 'minName', 'minLow', 'minHigh', 'maxName', 'maxLow', 'maxHigh', 'avgName', 'avgLow', 'avgHigh', 'sumName', 'sumLow', 'sumHigh', 'countName','countLow', 'countHigh'],
+  generalizedP: ['file_name', 'sim_attr', 'ext_attr', 'threshold', 'p'],
+  libraryMaxP: ['file_name', 'attr_name', 'threshold_name', 'threshold'],
+  ScalableMaxP: ['file_name', 'sim_attr', 'ext_attr', 'threshold'],
+  compareMaxP: ['file_name', 'sim_attr', 'ext_attr', 'threshold']
+};
+
 function UI({
   selectedFile,
   handleChange,
@@ -84,9 +91,11 @@ function UI({
   fetchData,
   apiParams,
   handleApiParamChange,
-  apiType, 
-  handleApiTypeChange 
+  apiType,
+  handleApiTypeChange
 }) {
+  const currentParams = apiTypeParams[apiType];
+
   return (
     <div className="app">
       <header className="app-header">
@@ -106,21 +115,47 @@ function UI({
           />
           <FetchButton fetchData={fetchData} />
           <div className="api-params">
-            {paramLabels.map(label => (
-              <>
+            {apiType === 'emp' ?
+              <React.Fragment>
                 <ParameterInput
-                  label={`${label}Name`}
-                  id={`${label}Name`}
-                  value={apiParams[`${label}Name`]}
+                  label='file_name'
+                  id='file_name'
+                  value={apiParams['file_name']}
                   handleChange={handleApiParamChange}
                 />
-                <Slider
-                  apiParams={apiParams}
-                  handleApiParamChange={handleApiParamChange}
-                  labels={{ low: `${label}Low`, high: `${label}High` }}
+                <ParameterInput
+                  label='disname'
+                  id='disname'
+                  value={apiParams['disname']}
+                  handleChange={handleApiParamChange}
                 />
-              </>
-            ))}
+                {['min', 'max', 'avg', 'sum', 'count'].map((param, index) => (
+                  <React.Fragment key={index}>
+                    <ParameterInput
+                      label={`${param}Name`}
+                      id={`${param}Name`}
+                      value={apiParams[`${param}Name`]}
+                      handleChange={handleApiParamChange}
+                    />
+                    <Slider
+                      apiParams={apiParams}
+                      handleApiParamChange={handleApiParamChange}
+                      labels={{ low: `${param}Low`, high: `${param}High` }}
+                    />
+                  </React.Fragment>
+                ))}
+              </React.Fragment>
+              :
+              currentParams.map((param, index) => (
+                <ParameterInput
+                  key={index}
+                  label={param}
+                  id={param}
+                  value={apiParams[param]}
+                  handleChange={handleApiParamChange}
+                />
+              ))
+            }
           </div>
         </div>
         <div style={{ width: '85%', height: '600px', flexGrow: 1 }}>
@@ -131,4 +166,6 @@ function UI({
   );
 }
 
+
 export default UI;
+

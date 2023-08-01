@@ -34,6 +34,15 @@ const handleApiTypeChange = (event) => {
   setApiType(event.target.value);
 };
 
+const apiTypeParams = {
+  emp: ['file_name', 'disname','minName', 'minLow', 'minHigh', 'maxName', 'maxLow', 'maxHigh', 'avgName', 'avgLow', 'avgHigh', 'sumName', 'sumLow', 'sumHigh','countName', 'countLow', 'countHigh'],
+  generalizedP: ['file_name', 'sim_attr', 'ext_attr', 'threshold','p'],
+  libraryMaxP: ['file_name', 'attr_name', 'threshold_name', 'threshold'],
+  ScalableMaxP : ['file_name', 'sim_attr', 'ext_attr', 'threshold'],
+  compareMaxP: ['file_name', 'sim_attr', 'ext_attr', 'threshold']
+  // add the mappings for the other API types here
+};
+
 
   useEffect(() => {
     if (selectedFile) {
@@ -104,9 +113,16 @@ const handleApiTypeChange = (event) => {
   }, [map, selectedFile]);
 
   function fetchData() {
+    const currentParams = apiTypeParams[apiType] || apiTypeParams.default;
+
+    const filteredParams = {};
+    for (const param of currentParams) {
+      filteredParams[param] = apiParams[param];
+    }
+  
     axios
     .get(`http://localhost:8000/api/endpoint/${apiType}`, {
-      params: apiParams,
+      params: filteredParams,
     })
       .then((response) => {
         const labels = response.data.labels;
