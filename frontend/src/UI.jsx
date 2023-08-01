@@ -21,6 +21,24 @@ const FileSelector = ({ selectedFile, handleChange, files }) => (
   </div>
 );
 
+
+const ApiTypeSelector = ({ apiType, handleApiTypeChange }) => (
+  <div className="api-type-selector">
+    <label htmlFor="apiType">API Type:</label>
+    <select
+      id="apiType"
+      value={apiType}
+      onChange={handleApiTypeChange}
+      className="custom-select"
+    >
+      <option value="emp">emp</option>
+      <option value="generalisedP">generalisedP</option>
+      <option value="libraryMaxP">libraryMaxP</option>
+      <option value="scalableMaxP">scalableMaxP</option>
+      <option value="compareMaxP">compareMaxP</option>
+    </select>
+  </div>
+);
 const FetchButton = ({ fetchData }) => (
   <div className="fetch-button">
     <button onClick={fetchData} className="custom-button">
@@ -59,14 +77,15 @@ const Slider = ({ apiParams, handleApiParamChange, labels }) => (
 );
 
 const paramLabels = ['min', 'avg', 'sum', 'count', 'max'];
-
 function UI({
   selectedFile,
   handleChange,
   files,
   fetchData,
   apiParams,
-  handleApiParamChange
+  handleApiParamChange,
+  apiType, 
+  handleApiTypeChange 
 }) {
   return (
     <div className="app">
@@ -80,6 +99,10 @@ function UI({
             selectedFile={selectedFile}
             handleChange={handleChange}
             files={files}
+          />
+          <ApiTypeSelector
+            apiType={apiType}
+            handleApiTypeChange={handleApiTypeChange}
           />
           <FetchButton fetchData={fetchData} />
           <div className="api-params">

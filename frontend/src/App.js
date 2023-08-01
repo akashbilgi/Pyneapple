@@ -28,6 +28,12 @@ function App() {
     countLow: -999999,
     countHigh: 999999,
   });
+  const [apiType, setApiType] = useState('emp');
+
+const handleApiTypeChange = (event) => {
+  setApiType(event.target.value);
+};
+
 
   useEffect(() => {
     if (selectedFile) {
@@ -99,9 +105,9 @@ function App() {
 
   function fetchData() {
     axios
-      .get('http://localhost:8000/api/endpoint/emp', {
-        params: apiParams,
-      })
+    .get(`http://localhost:8000/api/endpoint/${apiType}`, {
+      params: apiParams,
+    })
       .then((response) => {
         const labels = response.data.labels;
 
@@ -173,14 +179,16 @@ function App() {
   };
 
   return (
-    <UI
-      selectedFile={selectedFile}
-      handleChange={handleChange}
-      files={files}
-      fetchData={fetchData}
-      apiParams={apiParams}
-      handleApiParamChange={handleApiParamChange}
-    />
+<UI
+    selectedFile={selectedFile}
+    handleChange={handleChange}
+    files={files}
+    fetchData={fetchData}
+    apiParams={apiParams}
+    handleApiParamChange={handleApiParamChange}
+    apiType={apiType} // Pass apiType
+    handleApiTypeChange={handleApiTypeChange} // Pass handleApiTypeChange
+  />
   );
 }
 
