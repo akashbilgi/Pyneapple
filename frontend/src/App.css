@@ -20,6 +20,30 @@ body {
   display: flex;
   flex-direction: column;
 }
+.api-params {
+  display: flex;
+  flex-direction: column;
+  gap:5px;
+  align-items: stretch; /* Make sure items stretch to fill the container */
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.input-container label {
+  margin-bottom: 5px;
+}
+
+.parameter-input {
+  width: 100%; /* This will ensure the width of the input is consistent */
+  padding: 2px;
+  font-size: 14px;
+  box-sizing: border-box; /* This includes padding and border in the element's total width and height */
+}
+
 
 .app-header {
   display: flex;
@@ -108,4 +132,18 @@ body {
   pointer-events: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+}
+.select-container, .button-container {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.custom-select, .custom-button {
+  margin-top: 5px;
+  width: 100%;
+  font-size: 14px;
+  padding: 5px;
 }

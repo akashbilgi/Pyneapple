@@ -2,9 +2,8 @@ import React from 'react';
 import logo from './pyneapple-logo-9.png';
 import RangeSlider from './RangeSlider';
 import './App.css';
-
 const FileSelector = ({ selectedFile, handleChange, files }) => (
-  <div className="file-selector">
+  <div className="select-container">
     <label htmlFor="selectedFile">Select File:</label>
     <select
       id="selectedFile"
@@ -23,7 +22,7 @@ const FileSelector = ({ selectedFile, handleChange, files }) => (
 
 
 const ApiTypeSelector = ({ apiType, handleApiTypeChange }) => (
-  <div className="api-type-selector">
+  <div className="select-container">
     <label htmlFor="apiType">API Type:</label>
     <select
       id="apiType"
@@ -39,16 +38,19 @@ const ApiTypeSelector = ({ apiType, handleApiTypeChange }) => (
     </select>
   </div>
 );
+
 const FetchButton = ({ fetchData }) => (
-  <div className="fetch-button">
+  <div className="button-container">
+    <label>&nbsp;</label>
     <button onClick={fetchData} className="custom-button">
       Fetch Data
     </button>
   </div>
 );
 
+
 const ParameterInput = ({ label, id, value, handleChange }) => (
-  <div>
+  <div className="input-container">
     <label htmlFor={id}>{label}:</label>
     <input
       type="text"
@@ -56,7 +58,7 @@ const ParameterInput = ({ label, id, value, handleChange }) => (
       name={id}
       value={value}
       onChange={handleChange}
-      style={{ fontSize: '14px', padding: '5px' }}
+      className="parameter-input"
     />
   </div>
 );

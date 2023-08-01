@@ -180,7 +180,7 @@ const apiTypeParams = {
       [name]: value,
     }));
   };
-
+  
   const getColor = (value) => {
     return '#000';
   };
