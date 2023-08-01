@@ -34,7 +34,7 @@ const ApiTypeSelector = ({ apiType, handleApiTypeChange }) => (
       <option value="emp">emp</option>
       <option value="generalizedP">generalizedP</option>
       <option value="libraryMaxP">libraryMaxP</option>
-      <option value="scalableMaxP">scalableMaxP</option>
+      <option value="ScalableMaxP">ScalableMaxP</option>
       <option value="compareMaxP">compareMaxP</option>
     </select>
   </div>

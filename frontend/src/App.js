@@ -176,10 +176,10 @@ const apiTypeParams = {
   const handleApiParamChange = (event) => {
     const { name, value } = event.target;
     setApiParams((prevParams) => ({
-        ...prevParams,
-        [name]: Number(value) !== NaN ? Number(value) : value, // convert value to number if it's a number
+      ...prevParams,
+      [name]: value,
     }));
-};
+  };
 
   const getColor = (value) => {
     return '#000';
