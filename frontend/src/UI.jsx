@@ -2,6 +2,8 @@ import React from 'react';
 import logo from './pyneapple-logo-9.png';
 import RangeSlider from './RangeSlider';
 import './App.css';
+import './UI.css';
+import MapContainer from './MapContainer';
 const FileSelector = ({ selectedFile, handleChange, files }) => (
   <div className="select-container">
     <label htmlFor="selectedFile">Select File:</label>
@@ -86,6 +88,7 @@ const apiTypeParams = {
   compareMaxP: ['sim_attr', 'ext_attr', 'threshold']
 };
 
+
 function UI({
   selectedFile,
   handleChange,
@@ -97,6 +100,23 @@ function UI({
   handleApiTypeChange
 }) {
   const currentParams = apiTypeParams[apiType];
+
+  const renderMaps = () => {
+    if (apiType === 'compareMaxP') {
+      return (
+        <div className="map-container">
+          <MapContainer selectedFile={selectedFile} apiParams={apiParams} mapIndex={1} />
+          <MapContainer selectedFile={selectedFile} apiParams={apiParams} mapIndex={2} />
+        </div>
+      );
+    } else {
+      return (
+        <div style={{ width: '85%', height: '600px', flexGrow: 1 }}>
+            <div id={`mapid-${apiType}-${selectedFile}`} style={{ height: '100%', width: '100%' }}></div>
+        </div>
+      );
+    }
+  };
 
   return (
     <div className="app">
@@ -156,12 +176,12 @@ function UI({
         </div>
         <div style={{ width: '85%', height: '600px', flexGrow: 1 }}>
           <div id="mapid" style={{ height: '100%', width: '100%' }}></div>
-        </div>
+          </div>
+        {renderMaps()}
       </div>
     </div>
   );
 }
-
 
 export default UI;
 
