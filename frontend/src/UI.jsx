@@ -4,6 +4,7 @@ import RangeSlider from './RangeSlider';
 import './App.css';
 import './UI.css';
 import MapContainer from './MapContainer';
+import MetricsPanel from './MetricsPanel';
 const FileSelector = ({ selectedFile, handleChange, files }) => (
   <div className="select-container">
     <label htmlFor="selectedFile">Select File:</label>
@@ -97,26 +98,35 @@ function UI({
   apiParams,
   handleApiParamChange,
   apiType,
-  handleApiTypeChange
+  handleApiTypeChange,
+  metrics
 }) {
   const currentParams = apiTypeParams[apiType];
+
 
   const renderMaps = () => {
     if (apiType === 'compareMaxP') {
       return (
-        <div className="map-container">
-          <MapContainer selectedFile={selectedFile} apiParams={apiParams} mapIndex={1} />
-          <MapContainer selectedFile={selectedFile} apiParams={apiParams} mapIndex={2} />
+        <div className="maps-container">
+          <div className="map-container">
+            <MapContainer selectedFile={selectedFile} apiParams={apiParams} mapIndex={1} />
+          </div>
+
+            {/* <MetricsPanel apiParams={apiParams} /> */}
+
+          <div className="map-container">
+            <MapContainer selectedFile={selectedFile} apiParams={apiParams} mapIndex={2} />
+          </div>
         </div>
       );
     } else {
       return (
         <div style={{ width: '85%', height: '600px', flexGrow: 1 }}>
-            <div id={`mapid-${apiType}-${selectedFile}`} style={{ height: '100%', width: '100%' }}></div>
+          <div id="mapid" style={{ height: '100%', width: '100%' }}></div>
         </div>
       );
     }
-  };
+  }
 
   return (
     <div className="app">
@@ -172,6 +182,23 @@ function UI({
                 />
               ))
             }
+             {apiType === 'compareMaxP' && (
+        <div className="metrics-panel">
+          <h2>Metrics</h2>
+          <div className="metric-value">
+            <label>ScalableMaxP Exececution time: </label>
+            <span>{metrics.metric1}</span>
+          </div>
+          <div className="metric-value">
+            <label>LibraryMaxP Exececution time: </label>
+            <span>{metrics.metric2}</span>
+          </div>
+          <div className="metric-value">
+            <label>Speed Up (Percetage): </label>
+            <span>{metrics.metric3}</span>
+          </div>
+        </div>
+      )}
           </div>
         </div>
         <div style={{ width: '85%', height: '600px', flexGrow: 1 }}>

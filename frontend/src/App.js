@@ -43,6 +43,12 @@ const apiTypeParams = {
   // add the mappings for the other API types here
 };
 
+const [metrics, setMetrics] = useState({
+  metric1: 0,
+  metric2: 0,
+  metric3: 0,
+});
+
 
   useEffect(() => {
     if (selectedFile) {
@@ -121,11 +127,19 @@ const apiTypeParams = {
     }
   
     axios
-    .get(`http://localhost:8000/api/endpoint/${apiType}`, {
+    .get(`http://localhost:8000/api/enpoint/${apiType}`, {
       params: filteredParams,
     })
       .then((response) => {
         const labels = response.data.labels;
+        const data = response.data;
+
+        // Step 3: Parse the data and update the state with the new metric values
+        setMetrics({
+          metric1: data.ScalableMaxP_ExecutionTime,
+          metric2: data.LibraryMaxP_ExecutionTime,
+          metric3: data['Total_SpeedUp(Percentage)'],
+        });
 
         // Create a mapping from labels to colors
         const labelColorMap = {};
@@ -145,22 +159,22 @@ const apiTypeParams = {
             labelIndex += 1;
           });
 
-          // Update legend
-          const legend = L.control({ position: 'bottomright' });
-          legend.onAdd = function (map) {
-            const div = L.DomUtil.create('div', 'info legend');
-            div.innerHTML += '<h4>Data</h4>';
-            for (let label in labelColorMap) {
-              div.innerHTML +=
-                '<i style="background:' +
-                labelColorMap[label] +
-                '"></i> ' +
-                label +
-                '<br>';
-            }
-            return div;
-          };
-          legend.addTo(map);
+          // // Update legend
+          // const legend = L.control({ position: 'bottomright' });
+          // legend.onAdd = function (map) {
+          //   const div = L.DomUtil.create('div', 'info legend');
+          //   div.innerHTML += '<h4>Data</h4>';
+          //   for (let label in labelColorMap) {
+          //     div.innerHTML +=
+          //       '<i style="background:' +
+          //       labelColorMap[label] +
+          //       '"></i> ' +
+          //       label +
+          //       '<br>';
+          //   }
+          //   return div;
+          // };
+          // legend.addTo(map);
           return currentGeoLayer;
         });
       })
@@ -204,6 +218,7 @@ const apiTypeParams = {
     handleApiParamChange={handleApiParamChange}
     apiType={apiType} // Pass apiType
     handleApiTypeChange={handleApiTypeChange} // Pass handleApiTypeChange
+     metrics={metrics}
   />
   );
 }

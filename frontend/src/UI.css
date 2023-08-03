@@ -1,9 +1,16 @@
 /* UI.css */
-  .map-container {
-    flex: 2;
+.maps-container {
     display: flex;
+    justify-content: space-between;
+    position: relative;
+    height: 100%;
+    width: 100%;
   }
   
+  .map-container {
+    flex: 1;
+    display: flex;
+  }
   /* Add any UI-specific styles below as needed */
   
   
