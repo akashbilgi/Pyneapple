@@ -1,23 +1,4 @@
 /* UI.css */
-
-.app {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  .app-body {
-    display: flex;
-    flex-grow: 1;
-    margin-top: 20px;
-  }
-  
-  .left-panel {
-    flex: 1;
-    max-width: 300px;
-    padding: 20px;
-  }
-  
   .map-container {
     flex: 2;
     display: flex;
