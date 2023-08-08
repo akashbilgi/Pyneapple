@@ -52,7 +52,6 @@ const MapContainer = ({ selectedFile, labels, mapIndex }) => {
         });
     }
   }, [map, selectedFile]);
-
   useEffect(() => {
     if (labels && labels.length > 0) {
       // Create a mapping from labels to colors
@@ -62,17 +61,19 @@ const MapContainer = ({ selectedFile, labels, mapIndex }) => {
           labelColorMap[label] = getRandomColor();
         }
       });
-
-      if (geoLayer) {
-        geoLayer.eachLayer(function (layer) {
-          const label = layer.feature.properties.POP;
+  
+      if (geoLayer) { // Use the correct variable name 'geoLayer' here
+        let labelIndex = 0;
+        geoLayer.eachLayer(function (layer) { // Use 'geoLayer' here as well
+          const label = labels[labelIndex];
           const color = labelColorMap[label];
           layer.setStyle({ fillColor: color });
           layer.bindTooltip(`${label}`);
+          labelIndex += 1;
         });
       }
     }
-  }, [labels, geoLayer]);
+  }, [labels, geoLayer]); // Add 'geoLayer' as a dependency here
 
   const getColor = (value) => {
     return '#000';
