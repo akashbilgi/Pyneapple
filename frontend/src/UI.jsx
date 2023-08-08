@@ -125,19 +125,12 @@ function UI({
       return (
         <div className="maps-container">
           <div className="map-container">
-            <MapContainer selectedFile={selectedFile} apiParams={apiParams} mapIndex={1} />
-          </div>
-          <div className="map-container">
             <MapContainer selectedFile={selectedFile} apiParams={apiParams} mapIndex={2} />
           </div>
         </div>
       );
     } else {
-      return (
-        <div style={{ width: '85%', height: '600px', flexGrow: 1 }}>
-          <div id="mapid" style={{ height: '100%', width: '100%' }}></div>
-        </div>
-      );
+
     }
   }
 

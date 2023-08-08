@@ -6,6 +6,7 @@ import axios from 'axios';
 const MapContainer = ({ selectedFile, apiParams, mapIndex }) => {
   const [map, setMap] = useState(null);
   const [geoLayer, setGeoLayer] = useState(null);
+  const [fetchDataClicked, setFetchDataClicked] = useState(false);
 
   useEffect(() => {
     if (!map) {
@@ -57,8 +58,20 @@ const MapContainer = ({ selectedFile, apiParams, mapIndex }) => {
   useEffect(() => {
     fetchData();
   }, [apiParams]);
+  const getColor = (value) => {
+    return '#000';
+  };
 
+  const getRandomColor = () => {
+    let color = '#';
+    const letters = '0123456789ABCDEF';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
   function fetchData() {
+ if (fetchDataClicked) {
     const currentParams = ['file_name', 'sim_attr', 'ext_attr', 'threshold'];
     const filteredParams = {};
     for (const param of currentParams) {
@@ -70,18 +83,36 @@ const MapContainer = ({ selectedFile, apiParams, mapIndex }) => {
         params: filteredParams,
       })
       .then((response) => {
-        // You can handle the data returned from the API here if needed
-        // For example, updating the map layers based on the data
+        const labels = response.data.labels;
+        const data = response.data;
+
+
+        // Create a mapping from labels to colors
+        const labelColorMap = {};
+        labels.forEach((label) => {
+          if (!labelColorMap[label]) {
+            labelColorMap[label] = getRandomColor();
+          }
+        });
+
+        setGeoLayer((currentGeoLayer) => {
+          let labelIndex = 0;
+          currentGeoLayer.eachLayer(function (layer) {
+            const label = labels[labelIndex];
+            const color = labelColorMap[label];
+            layer.setStyle({ fillColor: color });
+            layer.bindTooltip(`${label}`);
+            labelIndex += 1;
+          });
+
+          return currentGeoLayer;
+        });
       })
       .catch((error) => {
         console.log('Error fetching data:', error);
       });
   }
-
-  const getColor = (value) => {
-    return '#000';
-  };
-
+  }
   return <div id={`mapid-${mapIndex}`} style={{ height: '100%', width: '100%' }} />;
 };
 

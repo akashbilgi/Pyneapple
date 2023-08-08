@@ -169,22 +169,6 @@ const [metrics, setMetrics] = useState({
             labelIndex += 1;
           });
 
-          // // Update legend
-          // const legend = L.control({ position: 'bottomright' });
-          // legend.onAdd = function (map) {
-          //   const div = L.DomUtil.create('div', 'info legend');
-          //   div.innerHTML += '<h4>Data</h4>';
-          //   for (let label in labelColorMap) {
-          //     div.innerHTML +=
-          //       '<i style="background:' +
-          //       labelColorMap[label] +
-          //       '"></i> ' +
-          //       label +
-          //       '<br>';
-          //   }
-          //   return div;
-          // };
-          // legend.addTo(map);
           return currentGeoLayer;
         });
       })
