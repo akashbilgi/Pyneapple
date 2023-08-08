@@ -208,9 +208,9 @@ function UI({
       )}
           </div>
         </div>
-        <div style={{ width: '85%', height: '600px', flexGrow: 1 }}>
+        <div className="map-container">
           <div id="mapid" style={{ height: '100%', width: '100%' }}></div>
-          </div>
+        </div>
         {renderMaps()}
       </div>
     </div>
