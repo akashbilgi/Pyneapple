@@ -128,6 +128,44 @@ const [metrics, setMetrics] = useState({
     }
   }, [map, selectedFile]);
 
+  useEffect(() => {
+    if (map && geoLayer)  {
+      if (geoLayer) {
+        map.removeLayer(geoLayer);
+      }
+      shapefile
+        .read(`http://localhost:8003/${selectedFile}`)
+        .then(({ features }) => {
+          const newGeoLayer = L.geoJSON(features, {
+            style: (feature) => {
+              return {
+                fillColor: getColor(feature.properties.POP),
+                color: '#000',
+                fillOpacity: 0.5,
+              };
+            },
+            onEachFeature: (feature, layer) => {
+              layer.on('click', function () {
+                if (geoLayer) {
+                  geoLayer.setStyle({ fillOpacity: 0.5 });
+                  layer.setStyle({ fillOpacity: 1 });
+                }
+              });
+
+              const tooltipContent = `Tract: ${feature.properties.TRACTCE10}\nTotal Population: ${feature.properties.POP}`;
+              layer.bindTooltip(tooltipContent).openTooltip();
+            },
+          }).addTo(map);
+
+          setGeoLayer(newGeoLayer);
+        })
+        .catch((error) => {
+          console.log('Error loading shapefile:', error);
+        });
+    }
+    setGeoLayer(null);
+  }, [apiType, map]);
+
   function fetchData() {
     const currentParams = apiTypeParams[apiType] || apiTypeParams.default;
 
