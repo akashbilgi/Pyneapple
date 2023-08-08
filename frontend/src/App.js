@@ -3,13 +3,14 @@ import axios from 'axios';
 import L from 'leaflet';
 import * as shapefile from 'shapefile';
 import UI from './UI';
-
+//import { API_BASE_URL, FILE_UPLOAD_URL } from './config';
 
 function App() {
   const [geoLayer, setGeoLayer] = useState(null);
   const [map, setMap] = useState(null);
   const [selectedFile, setSelectedFile] = useState('LACity');
   const [files, setFiles] = useState([]);
+  const [file, setFile] = useState(null);
   const [apiParams, setApiParams] = useState({
     file_name: `${selectedFile}.shp`,
     disname: 'households',
@@ -34,6 +35,15 @@ const handleApiTypeChange = (event) => {
   setApiType(event.target.value);
 };
 
+const onFileChange = event => {
+  setFile(event.target.files[0]);
+};
+
+const onFileUpload = () => {
+  const formData = new FormData();
+  formData.append("file", file);
+  axios.post(`http://localhost:8000/upload`, formData);
+};
 const apiTypeParams = {
   emp: ['file_name', 'disname','minName', 'minLow', 'minHigh', 'maxName', 'maxLow', 'maxHigh', 'avgName', 'avgLow', 'avgHigh', 'sumName', 'sumLow', 'sumHigh','countName', 'countLow', 'countHigh'],
   generalizedP: ['file_name', 'sim_attr', 'ext_attr', 'threshold','p'],
@@ -219,6 +229,8 @@ const [metrics, setMetrics] = useState({
     apiType={apiType} // Pass apiType
     handleApiTypeChange={handleApiTypeChange} // Pass handleApiTypeChange
      metrics={metrics}
+     onFileChange={onFileChange}
+     onFileUpload={onFileUpload}
   />
   );
 }

@@ -80,7 +80,21 @@ const Slider = ({ apiParams, handleApiParamChange, labels }) => (
     />
   </div>
 );
-
+const FileUpload = ({ onFileChange, onFileUpload }) => (
+  <div className="upload-container">
+    <label htmlFor="file">Upload File:</label>
+    <input
+      type="file"
+      id="file"
+      onChange={onFileChange}
+      className="file-upload-input"
+      multiple
+    />
+    <button onClick={onFileUpload} className="upload-button">
+      Upload
+    </button>
+  </div>
+);
 const apiTypeParams = {
   emp: ['file_name', 'disname', 'minName', 'minLow', 'minHigh', 'maxName', 'maxLow', 'maxHigh', 'avgName', 'avgLow', 'avgHigh', 'sumName', 'sumLow', 'sumHigh', 'countName','countLow', 'countHigh'],
   generalizedP: ['sim_attr', 'ext_attr', 'threshold', 'p'],
@@ -99,7 +113,9 @@ function UI({
   handleApiParamChange,
   apiType,
   handleApiTypeChange,
-  metrics
+  metrics,
+  onFileChange,
+  onFileUpload
 }) {
   const currentParams = apiTypeParams[apiType];
 
@@ -111,9 +127,6 @@ function UI({
           <div className="map-container">
             <MapContainer selectedFile={selectedFile} apiParams={apiParams} mapIndex={1} />
           </div>
-
-            {/* <MetricsPanel apiParams={apiParams} /> */}
-
           <div className="map-container">
             <MapContainer selectedFile={selectedFile} apiParams={apiParams} mapIndex={2} />
           </div>
@@ -141,6 +154,7 @@ function UI({
             handleChange={handleChange}
             files={files}
           />
+          <FileUpload onFileChange={onFileChange} onFileUpload={onFileUpload} />
           <ApiTypeSelector
             apiType={apiType}
             handleApiTypeChange={handleApiTypeChange}

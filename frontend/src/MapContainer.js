@@ -66,7 +66,7 @@ const MapContainer = ({ selectedFile, apiParams, mapIndex }) => {
     }
 
     axios
-      .get(`http://localhost:8000/api/endpoint/compareMaxP`, {
+      .get(`http://localhost:8000/api/enpoint/compareMaxP`, {
         params: filteredParams,
       })
       .then((response) => {
