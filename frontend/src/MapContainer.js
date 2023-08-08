@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import L from 'leaflet';
 import * as shapefile from 'shapefile';
-import axios from 'axios';
 
-const MapContainer = ({ selectedFile, apiParams, mapIndex }) => {
+const MapContainer = ({ selectedFile, labels, mapIndex }) => {
   const [map, setMap] = useState(null);
   const [geoLayer, setGeoLayer] = useState(null);
-  const [fetchDataClicked, setFetchDataClicked] = useState(false);
 
   useEffect(() => {
     if (!map) {
@@ -56,8 +54,26 @@ const MapContainer = ({ selectedFile, apiParams, mapIndex }) => {
   }, [map, selectedFile]);
 
   useEffect(() => {
-    fetchData();
-  }, [apiParams]);
+    if (labels && labels.length > 0) {
+      // Create a mapping from labels to colors
+      const labelColorMap = {};
+      labels.forEach((label) => {
+        if (!labelColorMap[label]) {
+          labelColorMap[label] = getRandomColor();
+        }
+      });
+
+      if (geoLayer) {
+        geoLayer.eachLayer(function (layer) {
+          const label = layer.feature.properties.POP;
+          const color = labelColorMap[label];
+          layer.setStyle({ fillColor: color });
+          layer.bindTooltip(`${label}`);
+        });
+      }
+    }
+  }, [labels, geoLayer]);
+
   const getColor = (value) => {
     return '#000';
   };
@@ -70,49 +86,7 @@ const MapContainer = ({ selectedFile, apiParams, mapIndex }) => {
     }
     return color;
   };
-  function fetchData() {
- if (fetchDataClicked) {
-    const currentParams = ['file_name', 'sim_attr', 'ext_attr', 'threshold'];
-    const filteredParams = {};
-    for (const param of currentParams) {
-      filteredParams[param] = apiParams[param];
-    }
 
-    axios
-      .get(`http://localhost:8000/api/enpoint/compareMaxP`, {
-        params: filteredParams,
-      })
-      .then((response) => {
-        const labels = response.data.labels;
-        const data = response.data;
-
-
-        // Create a mapping from labels to colors
-        const labelColorMap = {};
-        labels.forEach((label) => {
-          if (!labelColorMap[label]) {
-            labelColorMap[label] = getRandomColor();
-          }
-        });
-
-        setGeoLayer((currentGeoLayer) => {
-          let labelIndex = 0;
-          currentGeoLayer.eachLayer(function (layer) {
-            const label = labels[labelIndex];
-            const color = labelColorMap[label];
-            layer.setStyle({ fillColor: color });
-            layer.bindTooltip(`${label}`);
-            labelIndex += 1;
-          });
-
-          return currentGeoLayer;
-        });
-      })
-      .catch((error) => {
-        console.log('Error fetching data:', error);
-      });
-  }
-  }
   return <div id={`mapid-${mapIndex}`} style={{ height: '100%', width: '100%' }} />;
 };
 

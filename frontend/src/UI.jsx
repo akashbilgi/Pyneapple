@@ -4,7 +4,6 @@ import RangeSlider from './RangeSlider';
 import './App.css';
 import './UI.css';
 import MapContainer from './MapContainer';
-import MetricsPanel from './MetricsPanel';
 const FileSelector = ({ selectedFile, handleChange, files }) => (
   <div className="select-container">
     <label htmlFor="selectedFile">Select File:</label>
@@ -115,7 +114,8 @@ function UI({
   handleApiTypeChange,
   metrics,
   onFileChange,
-  onFileUpload
+  onFileUpload,
+  labels1,
 }) {
   const currentParams = apiTypeParams[apiType];
 
@@ -125,7 +125,7 @@ function UI({
       return (
         <div className="maps-container">
           <div className="map-container">
-            <MapContainer selectedFile={selectedFile} apiParams={apiParams} mapIndex={2} />
+            <MapContainer selectedFile={selectedFile} apiParams={apiParams} labels={labels1} mapIndex={2} />
           </div>
         </div>
       );

@@ -3,7 +3,6 @@ import axios from 'axios';
 import L from 'leaflet';
 import * as shapefile from 'shapefile';
 import UI from './UI';
-//import { API_BASE_URL, FILE_UPLOAD_URL } from './config';
 
 function App() {
   const [geoLayer, setGeoLayer] = useState(null);
@@ -11,6 +10,7 @@ function App() {
   const [selectedFile, setSelectedFile] = useState('LACity');
   const [files, setFiles] = useState([]);
   const [file, setFile] = useState(null);
+  const [labels1, setLabels] = useState([]);
   const [apiParams, setApiParams] = useState({
     file_name: `${selectedFile}.shp`,
     disname: 'households',
@@ -135,15 +135,15 @@ const [metrics, setMetrics] = useState({
     for (const param of currentParams) {
       filteredParams[param] = apiParams[param];
     }
-  
+  if(apiType==='compareMaxP'){
     axios
     .get(`http://localhost:8000/api/enpoint/${apiType}`, {
       params: filteredParams,
     })
       .then((response) => {
-        const labels = response.data.labels;
+        const labels = response.data.ScalableMaxP_Labels[0];
         const data = response.data;
-
+        setLabels(response.data.ScalableMaxP_Labels[0]);
         // Step 3: Parse the data and update the state with the new metric values
         setMetrics({
           metric1: data.ScalableMaxP_ExecutionTime,
@@ -175,6 +175,40 @@ const [metrics, setMetrics] = useState({
       .catch((error) => {
         console.log('Error fetching data:', error);
       });
+  }
+  else{
+    axios
+    .get(`http://localhost:8000/api/endpoint/${apiType}`, {
+      params: filteredParams,
+    })
+      .then((response) => {
+        const labels = response.data.labels;
+
+        // Create a mapping from labels to colors
+        const labelColorMap = {};
+        labels.forEach((label) => {
+          if (!labelColorMap[label]) {
+            labelColorMap[label] = getRandomColor();
+          }
+        });
+
+        setGeoLayer((currentGeoLayer) => {
+          let labelIndex = 0;
+          currentGeoLayer.eachLayer(function (layer) {
+            const label = labels[labelIndex];
+            const color = labelColorMap[label];
+            layer.setStyle({ fillColor: color });
+            layer.bindTooltip(`${label}`);
+            labelIndex += 1;
+          });
+
+          return currentGeoLayer;
+        });
+      })
+      .catch((error) => {
+        console.log('Error fetching data:', error);
+      });
+    }
   }
 
   const handleChange = (event) => {
@@ -215,6 +249,7 @@ const [metrics, setMetrics] = useState({
      metrics={metrics}
      onFileChange={onFileChange}
      onFileUpload={onFileUpload}
+     labels1={labels1}
   />
   );
 }
