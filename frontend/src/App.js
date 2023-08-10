@@ -53,11 +53,12 @@ const apiTypeParams = {
   // add the mappings for the other API types here
 };
 
-const [metrics, setMetrics] = useState({
-  metric1: 0,
-  metric2: 0,
-  metric3: 0,
-});
+const [metrics, setMetrics] = useState([
+  { name: 'ScalableMaxP Execution Time', value: 0 },
+  { name: 'LibraryMaxP Execution Time', value: 0 },
+  { name: 'Speed Up (Percentage)', value: 0 },
+]);
+
 
 
   useEffect(() => {
@@ -183,11 +184,12 @@ const [metrics, setMetrics] = useState({
         const data = response.data;
         setLabels(response.data.ScalableMaxP_Labels[0]);
         // Step 3: Parse the data and update the state with the new metric values
-        setMetrics({
-          metric1: data.ScalableMaxP_ExecutionTime,
-          metric2: data.LibraryMaxP_ExecutionTime,
-          metric3: data['Total_SpeedUp(Percentage)'],
-        });
+        setMetrics([
+          { name: 'ScalableMaxP Execution Time', value: data.ScalableMaxP_ExecutionTime },
+          { name: 'LibraryMaxP Execution Time', value: data.LibraryMaxP_ExecutionTime },
+          { name: 'Speed Up (Percentage)', value: data['Total_SpeedUp(Percentage)'] },
+        ]);
+        
 
         // Create a mapping from labels to colors
         const labelColorMap = {};

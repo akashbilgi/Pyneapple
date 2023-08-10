@@ -4,6 +4,7 @@ import RangeSlider from './RangeSlider';
 import './App.css';
 import './UI.css';
 import MapContainer from './MapContainer';
+import ExecutionTimeChart from './ExecutionTimeChart';
 const FileSelector = ({ selectedFile, handleChange, files }) => (
   <div className="select-container">
     <label htmlFor="selectedFile">Select File:</label>
@@ -128,6 +129,7 @@ function UI({
             <MapContainer selectedFile={selectedFile} apiParams={apiParams} labels={labels1} mapIndex={2} />
           </div>
         </div>
+        
       );
     } else {
 
@@ -190,21 +192,19 @@ function UI({
               ))
             }
              {apiType === 'compareMaxP' && (
-        <div className="metrics-panel">
-          <h2>Metrics</h2>
-          <div className="metric-value">
-            <label>ScalableMaxP Exececution time: </label>
-            <span>{metrics.metric1}</span>
-          </div>
-          <div className="metric-value">
-            <label>LibraryMaxP Exececution time: </label>
-            <span>{metrics.metric2}</span>
-          </div>
-          <div className="metric-value">
-            <label>Speed Up (Percetage): </label>
-            <span>{metrics.metric3}</span>
-          </div>
-        </div>
+              <div className="metrics-panel">
+              <h2>Metrics</h2>
+              {metrics.map((metric, index) => (
+                <div className="metric-value" key={index}>
+                  <label>{metric.name}: </label>
+                  <span>{metric.value}</span>
+                </div>
+              ))}
+              <div className="chart-container">
+                <ExecutionTimeChart data={metrics} />
+              </div>
+            </div>
+
       )}
           </div>
         </div>
