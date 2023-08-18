@@ -15,7 +15,6 @@ const MapContainer = ({ selectedFile, labels, mapIndex }) => {
       setMap(mymap);
     }
   }, [map]);
-
   useEffect(() => {
     if (map && selectedFile) {
       if (geoLayer) {
@@ -39,19 +38,29 @@ const MapContainer = ({ selectedFile, labels, mapIndex }) => {
                   layer.setStyle({ fillOpacity: 1 });
                 }
               });
-
+  
               const tooltipContent = `Tract: ${feature.properties.TRACTCE10}\nTotal Population: ${feature.properties.POP}`;
               layer.bindTooltip(tooltipContent).openTooltip();
             },
           }).addTo(map);
-
+  
           setGeoLayer(newGeoLayer);
+  
+          // Calculate the center and zoom level based on GeoJSON layer's bounding box
+          if (features.length > 0) {
+            const layerBounds = newGeoLayer.getBounds();
+            const center = layerBounds.getCenter();
+            const zoom = map.getBoundsZoom(layerBounds);
+            map.setView(center, zoom);
+          }
         })
         .catch((error) => {
           console.log('Error loading shapefile:', error);
         });
     }
   }, [map, selectedFile]);
+  
+  
   useEffect(() => {
     if (labels && labels.length > 0) {
       // Create a mapping from labels to colors
