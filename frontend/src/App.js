@@ -226,7 +226,7 @@ const [metrics, setMetrics] = useState([
         console.log('Error fetching data:', error);
       });
   }
-  else if(apiType==='ScalableMaxP' || apiType==='libraryMaxP'){
+  else if(apiType==='ScalableMaxP' || apiType==='libraryMaxP' || apiType==="generalizedP"){
     axios
     .get(`http://localhost:8000/api/endpoint/${apiType}`, {
       params: filteredParams,
