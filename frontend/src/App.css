@@ -160,3 +160,32 @@ body {
   pointer-events: none; /* This allows clicks to go through the overlay to the map */
   z-index: 1;
 }
+
+/* Add some basic styling for the toggle button */
+.show-panel-button {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  cursor: pointer;
+  transform: translateY(-50%);
+  z-index: 4;
+}
+
+/* Add some styling to the toggle button */
+.show-panel-button span {
+  font-size: 20px;
+}
+
+/* Add a transition for smooth animation */
+.left-panel {
+  transition: left 0.3s ease-in-out;
+}
+
+/* Add a class to shift the map to the right when the panel is visible */
+.map-container.panel-visible {
+  margin-left: 3000px; /* Adjust the margin as needed */
+  transition: margin-left 0.3s ease-in-out;
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './pyneapple-logo-9.png';
 import RangeSlider from './RangeSlider';
 import './App.css';
@@ -120,7 +120,11 @@ function UI({
 }) {
   const currentParams = apiTypeParams[apiType];
 
+  const [isPanelVisible, setIsPanelVisible] = useState(false);
 
+  const togglePanelVisibility = () => {
+    setIsPanelVisible((prevVisible) => !prevVisible);
+  };
   const renderMaps = () => {
     if (apiType === 'compareMaxP') {
       return (
@@ -132,6 +136,9 @@ function UI({
         
       );
     } else {
+      return(        <div className="map-container">
+      <div id="mapid" style={{ height: '100%', width: '100%' }}></div>
+    </div>)
 
     }
   }
@@ -143,18 +150,22 @@ function UI({
         <h1 className="app-title">Pyneapple App Demo</h1>
       </header>
       <div className="app-body">
-        <div className="left-panel">
-          <FileSelector
-            selectedFile={selectedFile}
-            handleChange={handleChange}
-            files={files}
-          />
-          <FileUpload onFileChange={onFileChange} onFileUpload={onFileUpload} />
-          <ApiTypeSelector
-            apiType={apiType}
-            handleApiTypeChange={handleApiTypeChange}
-          />
-          <FetchButton fetchData={fetchData} />
+      <div className="show-panel-button" onClick={togglePanelVisibility} title="Show Panel">
+          {isPanelVisible ? <span>&#9664;</span> : <span>&#9654;</span>}
+        </div>
+        {isPanelVisible && (
+          <div className="left-panel">
+            <FileSelector
+              selectedFile={selectedFile}
+              handleChange={handleChange}
+              files={files}
+            />
+            <FileUpload onFileChange={onFileChange} onFileUpload={onFileUpload} />
+            <ApiTypeSelector
+              apiType={apiType}
+              handleApiTypeChange={handleApiTypeChange}
+            />
+            <FetchButton fetchData={fetchData} />
           <div className="api-params">
             {apiType === 'emp' ?
               <React.Fragment>
@@ -185,7 +196,7 @@ function UI({
                 <ParameterInput
                   key={index}
                   label={param}
-                  id={param}
+                  id={param}w
                   value={apiParams[param]}
                   handleChange={handleApiParamChange}
                 />
@@ -207,7 +218,8 @@ function UI({
 
       )}
           </div>
-        </div>
+          </div>
+        )}
         <div className="map-container">
           <div id="mapid" style={{ height: '100%', width: '100%' }}></div>
         </div>
