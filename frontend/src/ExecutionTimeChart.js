@@ -5,9 +5,9 @@ const ExecutionTimeChart = ({ data }) => {
   return (
     <div className="execution-time-chart-container">
       <h2>Execution Time Comparison Chart</h2>
-      <BarChart width={250} height={300} data={data}>
-        <CartesianGrid strokeDasharray="3" />
-        <XAxis dataKey="name" />
+      <BarChart width={300} height={300} data={data}>
+        <CartesianGrid strokeDasharray="7" />
+        <XAxis dataKey="name" tickFormatter={() => ''} />
         <YAxis />
         <Tooltip />
         <Legend />

@@ -28,6 +28,7 @@ function App() {
     sumHigh: 1000000,
     countLow: -1000000,
     countHigh: 1000000,
+    weight: 'Rook'
   });
   const [apiType, setApiType] = useState('emp');
 
@@ -46,10 +47,10 @@ const onFileUpload = () => {
 };
 const apiTypeParams = {
   emp: ['file_name', 'disname','minName', 'minLow', 'minHigh', 'maxName', 'maxLow', 'maxHigh', 'avgName', 'avgLow', 'avgHigh', 'sumName', 'sumLow', 'sumHigh','countName', 'countLow', 'countHigh'],
-  generalizedP: ['file_name', 'sim_attr', 'ext_attr', 'threshold','p'],
-  libraryMaxP: ['file_name', 'attr_name', 'threshold_name', 'threshold'],
-  ScalableMaxP : ['file_name', 'sim_attr', 'ext_attr', 'threshold'],
-  compareMaxP: ['file_name', 'sim_attr', 'ext_attr', 'threshold']
+  generalizedP: ['file_name',  'sim_attr', 'ext_attr', 'threshold','p'],
+  libraryMaxP: ['file_name',  'attr_name', 'threshold_name', 'threshold'],
+  ScalableMaxP : ['file_name',  'sim_attr', 'ext_attr', 'threshold'],
+  compareMaxP: ['file_name',  'sim_attr', 'ext_attr', 'threshold']
   // add the mappings for the other API types here
 };
 
@@ -150,13 +151,13 @@ const [metrics, setMetrics] = useState([
               return {
                 fillColor: getColor(feature.properties.POP),
                 color: '#000',
-                fillOpacity: 0.5,
+                fillOpacity: 0.8,
               };
             },
             onEachFeature: (feature, layer) => {
               layer.on('click', function () {
                 if (geoLayer) {
-                  geoLayer.setStyle({ fillOpacity: 0.5 });
+                  geoLayer.setStyle({ fillOpacity: 0.8 });
                   layer.setStyle({ fillOpacity: 1 });
                 }
               });
@@ -182,15 +183,16 @@ const [metrics, setMetrics] = useState([
     for (const param of currentParams) {
       filteredParams[param] = apiParams[param];
     }
+    filteredParams.weight = apiParams.weight;
   if(apiType==='compareMaxP'){
     axios
-    .get(`http://localhost:8000/api/enpoint/${apiType}`, {
+    .get(`http://localhost:8000/api/endpoint/${apiType}`, {
       params: filteredParams,
     })
       .then((response) => {
-        const labels = response.data.ScalableMaxP_Labels[0];
+        const labels = response.data.ScalableMaxP_Labels[1];
         const data = response.data;
-        setLabels(response.data.ScalableMaxP_Labels[0]);
+        setLabels(response.data.LibraryMaxP_Labels[1]);
         // Step 3: Parse the data and update the state with the new metric values
         setMetrics([
           { name: 'ScalableMaxP Execution Time', value: data.ScalableMaxP_ExecutionTime },
@@ -220,6 +222,45 @@ const [metrics, setMetrics] = useState([
           return currentGeoLayer;
         });
       })
+      .catch((error) => {
+        console.log('Error fetching data:', error);
+      });
+  }
+  else if(apiType==='ScalableMaxP' || apiType==='libraryMaxP'){
+    axios
+    .get(`http://localhost:8000/api/endpoint/${apiType}`, {
+      params: filteredParams,
+    })
+    .then((response) => {
+      const labels = response.data.labels[1]
+      // Create a mapping from labels to colors
+      let labelColorIndex = 0;
+      const contrastColors = [
+        '#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', 
+        '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe',
+        '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', 
+        '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', 
+      ]; 
+      // Create a mapping from labels to colors
+      const labelColorMap = labels.reduce((acc, label) => {
+        acc[label] = contrastColors[labelColorIndex % contrastColors.length];
+        labelColorIndex++;
+        return acc;
+      }, {});
+
+      setGeoLayer((currentGeoLayer) => {
+        let labelIndex = 0;
+        currentGeoLayer.eachLayer(function (layer) {
+          const label = labels[labelIndex];
+          const color = labelColorMap[label];
+          layer.setStyle({ fillColor: color });
+          layer.bindTooltip(`${label}`);
+          labelIndex += 1;
+        });
+
+        return currentGeoLayer;
+      });
+    })
       .catch((error) => {
         console.log('Error fetching data:', error);
       });
@@ -271,6 +312,16 @@ const [metrics, setMetrics] = useState([
     }));
   };
   
+  const handleWeightChange = (event) => {
+    const newWeightValue = event.target.value;
+    
+    setApiParams((prevParams) => ({
+      ...prevParams,
+      weight: newWeightValue,
+    }));
+  };
+  
+  
   const getColor = (value) => {
     return '#000';
   };
@@ -294,6 +345,7 @@ const [metrics, setMetrics] = useState([
     handleApiParamChange={handleApiParamChange}
     apiType={apiType} // Pass apiType
     handleApiTypeChange={handleApiTypeChange} // Pass handleApiTypeChange
+    handleWeightChange={handleWeightChange}
      metrics={metrics}
      onFileChange={onFileChange}
      onFileUpload={onFileUpload}

@@ -52,6 +52,20 @@ const FetchButton = ({ fetchData }) => (
 );
 
 
+const WeightSelector = ({ weight, handleWeightChange }) => (
+  <div className="select-container">
+    <label htmlFor="weight">Weight:</label>
+    <select
+      id="weight"
+      value={weight}
+      onChange={handleWeightChange}
+      className="custom-select"
+    >
+  <option value="Rook">Rook</option>
+  <option value="Queen">Queen</option>
+    </select>
+  </div>
+);
 const ParameterInput = ({ label, id, value, handleChange }) => (
   <div className="input-container">
     <label htmlFor={id}>{label}:</label>
@@ -110,6 +124,7 @@ function UI({
   files,
   fetchData,
   apiParams,
+  handleWeightChange,
   handleApiParamChange,
   apiType,
   handleApiTypeChange,
@@ -136,9 +151,6 @@ function UI({
         
       );
     } else {
-      return(        <div className="map-container">
-      <div id="mapid" style={{ height: '100%', width: '100%' }}></div>
-    </div>)
 
     }
   }
@@ -150,7 +162,7 @@ function UI({
         <h1 className="app-title">Pyneapple App Demo</h1>
       </header>
       <div className="app-body">
-      <div className="show-panel-button" onClick={togglePanelVisibility} title="Show Panel">
+        <div className="show-panel-button" onClick={togglePanelVisibility} title="Show Panel">
           {isPanelVisible ? <span>&#9664;</span> : <span>&#9654;</span>}
         </div>
         {isPanelVisible && (
@@ -160,6 +172,7 @@ function UI({
               handleChange={handleChange}
               files={files}
             />
+            <WeightSelector weight={apiParams.weight} handleWeightChange={handleWeightChange} />
             <FileUpload onFileChange={onFileChange} onFileUpload={onFileUpload} />
             <ApiTypeSelector
               apiType={apiType}
@@ -196,7 +209,7 @@ function UI({
                 <ParameterInput
                   key={index}
                   label={param}
-                  id={param}w
+                  id={param}
                   value={apiParams[param]}
                   handleChange={handleApiParamChange}
                 />
@@ -212,7 +225,7 @@ function UI({
                 </div>
               ))}
               <div className="chart-container">
-                <ExecutionTimeChart data={metrics} />
+                <ExecutionTimeChart data={[metrics[0], metrics[1]]} />
               </div>
             </div>
 
@@ -221,7 +234,7 @@ function UI({
           </div>
         )}
         <div className="map-container">
-          <div id="mapid" style={{ height: '100%', width: '100%' }}></div>
+          <div id="mapid"></div>
         </div>
         {renderMaps()}
       </div>

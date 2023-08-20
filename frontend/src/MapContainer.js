@@ -28,13 +28,13 @@ const MapContainer = ({ selectedFile, labels, mapIndex }) => {
               return {
                 fillColor: getColor(feature.properties.POP),
                 color: '#000',
-                fillOpacity: 0.5,
+                fillOpacity: 0.8,
               };
             },
             onEachFeature: (feature, layer) => {
               layer.on('click', function () {
                 if (geoLayer) {
-                  geoLayer.setStyle({ fillOpacity: 0.5 });
+                  geoLayer.setStyle({ fillOpacity: 0.8 });
                   layer.setStyle({ fillOpacity: 1 });
                 }
               });
