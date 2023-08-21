@@ -9,6 +9,7 @@ function App() {
   const [map, setMap] = useState(null);
   const [selectedFile, setSelectedFile] = useState('LACity');
   const [files, setFiles] = useState([]);
+  const [dropdownData, setDropdownData] = useState([]);
   const [file, setFile] = useState(null);
   const [labels1, setLabels] = useState([]);
   const [apiParams, setApiParams] = useState({
@@ -60,7 +61,17 @@ const [metrics, setMetrics] = useState([
   { name: 'Speed Up (Percentage)', value: 0 },
 ]);
 
-
+useEffect(() => {
+  let fileName = selectedFile.endsWith('.shp') ? selectedFile : `${selectedFile}.shp`
+  fetch(`http://localhost:8000/dfDetails?filename=${fileName}`)
+    .then(response => response.json())
+    .then(data => {
+      // Extracting just the names from the response for the dropdown
+      const names = data.map(item => item[0]);
+      setDropdownData(names);
+    })
+    .catch(error => console.error("Error fetching the dropdown data:", error));
+}, [selectedFile]);
 
   useEffect(() => {
     if (selectedFile) {
@@ -340,6 +351,7 @@ const [metrics, setMetrics] = useState([
     selectedFile={selectedFile}
     handleChange={handleChange}
     files={files}
+    dropdownData={dropdownData}
     fetchData={fetchData}
     apiParams={apiParams}
     handleApiParamChange={handleApiParamChange}
