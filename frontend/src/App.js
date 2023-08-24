@@ -29,7 +29,8 @@ function App() {
     sumHigh: 1000000,
     countLow: -1000000,
     countHigh: 1000000,
-    weight: 'Rook'
+    weight: 'Rook',
+    sim_attr :'households'
   });
   const [apiType, setApiType] = useState('emp');
 

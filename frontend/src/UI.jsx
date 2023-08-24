@@ -22,25 +22,25 @@ const FileSelector = ({ selectedFile, handleChange, files }) => (
     </select>
   </div>
 );
-const DynamicDropdown = ({label, id, value, handleApiParamChange, options }) => (
+const DynamicDropdown = ({ label, id, value, handleApiParamChange, options }) => (
   <div className="select-container">
     <label htmlFor={id}>{id}:</label>
     <select
-  id={id}
-  value={value}
-  label={label}
-  onChange={(e) => {
-    console.log('Selected value:', e.target.value);
-    handleApiParamChange(e.target.value);
-  }}
-  className="custom-select"
->
-  {options.map((option, index) => (
-    <option value={option} key={index}>
-      {option}
-    </option>
-  ))}
-</select>
+      id={id}
+      value={value}
+      label={label}
+      onChange={(e) => {
+        console.log('Selected value:', e.target.value);
+        handleApiParamChange(e.target.value);
+      }}
+      className="custom-select"
+    >
+      {options.map((option, index) => (
+        <option value={option} key={index}>
+          {option}
+        </option>
+      ))}
+    </select>
 
   </div>
 );
@@ -82,8 +82,8 @@ const WeightSelector = ({ weight, handleWeightChange }) => (
       onChange={handleWeightChange}
       className="custom-select"
     >
-  <option value="Rook">Rook</option>
-  <option value="Queen">Queen</option>
+      <option value="Rook">Rook</option>
+      <option value="Queen">Queen</option>
     </select>
   </div>
 );
@@ -131,7 +131,7 @@ const FileUpload = ({ onFileChange, onFileUpload }) => (
   </div>
 );
 const apiTypeParams = {
-  emp: ['file_name', 'disname', 'minName', 'minLow', 'minHigh', 'maxName', 'maxLow', 'maxHigh', 'avgName', 'avgLow', 'avgHigh', 'sumName', 'sumLow', 'sumHigh', 'countName','countLow', 'countHigh'],
+  emp: ['file_name', 'disname', 'minName', 'minLow', 'minHigh', 'maxName', 'maxLow', 'maxHigh', 'avgName', 'avgLow', 'avgHigh', 'sumName', 'sumLow', 'sumHigh', 'countName', 'countLow', 'countHigh'],
   generalizedP: ['sim_attr', 'ext_attr', 'threshold', 'p'],
   libraryMaxP: ['attr_name', 'threshold_name', 'threshold'],
   ScalableMaxP: ['sim_attr', 'ext_attr', 'threshold'],
@@ -176,7 +176,7 @@ function UI({
             <MapContainer selectedFile={selectedFile} apiParams={apiParams} labels={labels1} mapIndex={2} />
           </div>
         </div>
-        
+
       );
     } else {
 
@@ -207,77 +207,76 @@ function UI({
               handleApiTypeChange={handleApiTypeChange}
             />
             <FetchButton fetchData={fetchData} />
-          <div className="api-params">
-            {apiType === 'emp' ?
-              <React.Fragment>
+            <div className="api-params">
+              {apiType === 'emp' ?
+                <React.Fragment>
 
-<DynamicDropdown
-  key="disname"  // You can use a static key here since you have only one dynamic dropdown
-  id="disname"
-  label="disname"
-  value={apiParams['disname']}
-  //handleApiParamChange={handleApiParamChange}
-  handleApiParamChange={(value) => handleApiParamChange({ target: { name: 'disname', value } })}
-  options={dropdownData}
-/>
-                          {/* {
-             ['sim_attr', 'ext_attr', 'attr_name', 'threshold_name', 'disname', 'minName', 'maxName', 'avgName', 'sumName', 'countName'].map(param => (
-              // [ 'disname' ].map(param => (
-              <DynamicDropdown
-                key={param}
-                label={param}
-                id={param}
-                value={apiParams[param]}
-                handleChange={(value) => handleApiParamChange({ target: { name: {param}, value } })}
-                options={dropdownData}
-              />
-            ))
-          } */}
+                  <DynamicDropdown
+                    key="disname"  // You can use a static key here since you have only one dynamic dropdown
+                    id="disname"
+                    label="disname"
+                    value={apiParams['disname']}
+                    //handleApiParamChange={handleApiParamChange}
+                    handleApiParamChange={(value) => handleApiParamChange({ target: { name: 'disname', value } })}
+                    options={dropdownData}
+                  />
 
-                {['min', 'max', 'avg', 'sum', 'count'].map((param, index) => (
-                  <React.Fragment key={index}>
+                  {['min', 'max', 'avg', 'sum', 'count'].map((param, index) => (
+                    <React.Fragment key={index}>
+                      <DynamicDropdown
+                        label={`${param}Name`}
+                        id={`${param}Name`}
+                        value={apiParams[`${param}Name`]}
+                        handleApiParamChange={(value) => handleApiParamChange({ target: { name: `${param}Name`, value } })}
+                        options={dropdownData}
+                      />
+                      <Slider
+                        apiParams={apiParams}
+                        handleApiParamChange={handleApiParamChange}
+                        labels={{ low: `${param}Low`, high: `${param}High` }}
+                      />
+                    </React.Fragment>
+                  ))}
+                </React.Fragment>
+                :
+                currentParams.map((param, index) => (
+                  param !== 'threshold' && param !== 'p' ? (
                     <DynamicDropdown
-                      label={`${param}Name`}
-                      id={`${param}Name`}
-                      value={apiParams[`${param}Name`]}
-                      handleApiParamChange={(value) => handleApiParamChange({ target: { name: `${param}Name`, value } })}
+                    key={index}
+                      label={param}
+                      id={param}
+                      value={apiParams[param]}
+                      handleApiParamChange={(value) => handleApiParamChange({ target: { name: param, value } })}
                       options={dropdownData}
+                     // apiParams={apiParams} // Pass apiParams here
                     />
-                    <Slider
-                      apiParams={apiParams}
-                      handleApiParamChange={handleApiParamChange}
-                      labels={{ low: `${param}Low`, high: `${param}High` }}
+                  ) : (
+                    <ParameterInput
+                      key={index}
+                      label={param}
+                      id={param}
+                      value={apiParams[param]}
+                      handleChange={handleApiParamChange}
                     />
-                  </React.Fragment>
-                ))}
-              </React.Fragment>
-              :
-              currentParams.map((param, index) => (
-                <ParameterInput
-                  key={index}
-                  label={param}
-                  id={param}
-                  value={apiParams[param]}
-                  handleChange={handleApiParamChange}
-                />
-              ))
-            }
-             {apiType === 'compareMaxP' && (
-              <div className="metrics-panel">
-              <h2>Metrics</h2>
-              {metrics.map((metric, index) => (
-                <div className="metric-value" key={index}>
-                  <label>{metric.name}: </label>
-                  <span>{metric.value}</span>
+                  )
+                ))
+              }
+              {apiType === 'compareMaxP' && (
+                <div className="metrics-panel">
+                  <h2>Metrics</h2>
+                  {metrics.map((metric, index) => (
+                    <div className="metric-value" key={index}>
+                      <label>{metric.name}: </label>
+                      <span>{metric.value}</span>
+                    </div>
+                  ))}
+                  <div className="chart-container">
+                    <ExecutionTimeChart data={[metrics[0], metrics[1]]} />
+                  </div>
                 </div>
-              ))}
-              <div className="chart-container">
-                <ExecutionTimeChart data={[metrics[0], metrics[1]]} />
-              </div>
-            </div>
 
-      )}
-          </div>
+              )}
+            </div>
           </div>
         )}
         <div className="map-container">
