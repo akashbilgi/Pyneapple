@@ -22,21 +22,26 @@ const FileSelector = ({ selectedFile, handleChange, files }) => (
     </select>
   </div>
 );
-const DynamicDropdown = ({ id, value, handleChange, options }) => (
+const DynamicDropdown = ({label, id, value, handleApiParamChange, options }) => (
   <div className="select-container">
     <label htmlFor={id}>{id}:</label>
     <select
-      id={id}
-      value={value}
-      onChange={handleChange}
-      className="custom-select"
-    >
-      {options.map((option, index) => (
-        <option value={option} key={index}>
-          {option}
-        </option>
-      ))}
-    </select>
+  id={id}
+  value={value}
+  label={label}
+  onChange={(e) => {
+    console.log('Selected value:', e.target.value);
+    handleApiParamChange(e.target.value);
+  }}
+  className="custom-select"
+>
+  {options.map((option, index) => (
+    <option value={option} key={index}>
+      {option}
+    </option>
+  ))}
+</select>
+
   </div>
 );
 
@@ -205,25 +210,18 @@ function UI({
           <div className="api-params">
             {apiType === 'emp' ?
               <React.Fragment>
-                {/* <ParameterInput
-                  label='disname'
-                  id='disname'
-                  value={apiParams['disname']}
-                  handleChange={handleApiParamChange}
-                /> */}
-                          {
-            // ['sim_attr', 'ext_attr', 'attr_name', 'threshold_name', 'disname', 'minName', 'maxName', 'avgName', 'sumName', 'countName'].map(param => (
-              [ 'disname' ].map(param => (
-              <DynamicDropdown
-                key={param}
-                label={param}
-                id={param}
-                value={apiParams[param]}
-                handleChange={handleApiParamChange}
-                options={dropdownData}
-              />
-            ))
-          }
+
+<DynamicDropdown
+  key="disname"  // You can use a static key here since you have only one dynamic dropdown
+  id="disname"
+  label="disname"
+  value={apiParams['disname']}
+  //handleApiParamChange={handleApiParamChange}
+  handleApiParamChange={(value) => handleApiParamChange({ target: { name: 'disname', value } })}
+  options={dropdownData}
+/>
+
+
                 {['min', 'max', 'avg', 'sum', 'count'].map((param, index) => (
                   <React.Fragment key={index}>
                     <ParameterInput
