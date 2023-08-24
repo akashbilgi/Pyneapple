@@ -220,15 +220,28 @@ function UI({
   handleApiParamChange={(value) => handleApiParamChange({ target: { name: 'disname', value } })}
   options={dropdownData}
 />
-
+                          {/* {
+             ['sim_attr', 'ext_attr', 'attr_name', 'threshold_name', 'disname', 'minName', 'maxName', 'avgName', 'sumName', 'countName'].map(param => (
+              // [ 'disname' ].map(param => (
+              <DynamicDropdown
+                key={param}
+                label={param}
+                id={param}
+                value={apiParams[param]}
+                handleChange={(value) => handleApiParamChange({ target: { name: {param}, value } })}
+                options={dropdownData}
+              />
+            ))
+          } */}
 
                 {['min', 'max', 'avg', 'sum', 'count'].map((param, index) => (
                   <React.Fragment key={index}>
-                    <ParameterInput
+                    <DynamicDropdown
                       label={`${param}Name`}
                       id={`${param}Name`}
                       value={apiParams[`${param}Name`]}
-                      handleChange={handleApiParamChange}
+                      handleApiParamChange={(value) => handleApiParamChange({ target: { name: `${param}Name`, value } })}
+                      options={dropdownData}
                     />
                     <Slider
                       apiParams={apiParams}
