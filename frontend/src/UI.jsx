@@ -5,6 +5,7 @@ import './App.css';
 import './UI.css';
 import MapContainer from './MapContainer';
 import ExecutionTimeChart from './ExecutionTimeChart';
+
 const FileSelector = ({ selectedFile, handleChange, files }) => (
   <div className="select-container">
     <label htmlFor="selectedFile">Select File:</label>
@@ -271,7 +272,10 @@ function UI({
                     </div>
                   ))}
                   <div className="chart-container">
+                  <h2>Comparison Chart Execution Time</h2>
                     <ExecutionTimeChart data={[metrics[0], metrics[1]]} />
+                    <h2>Speed Up</h2>
+                    <ExecutionTimeChart data={[metrics[2]]} w={250} h={150} caption='speedup %' color = '#F85000' />
                   </div>
                 </div>
 

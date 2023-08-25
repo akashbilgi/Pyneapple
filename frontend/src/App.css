@@ -85,9 +85,9 @@ body {
 .left-panel {
   position: absolute;
   width: 300px;
-  height: 1200px;
-  font-size: 14px;
-  padding: 20px;
+  height: 1400px;
+  font-size: 15px;
+  padding: 25px;
   color: #333; /* Change from white to dark grey */
   background-color: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);
@@ -97,7 +97,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  height: 1240px;
+  height: 1450px;
   width: 100%;
   z-index: 1;
 }
@@ -167,7 +167,7 @@ body {
 
 /* Add some styling to the toggle button */
 .show-panel-button span {
-  font-size: 15px;
+  font-size: 18px;
 }
 
 /* Add a transition for smooth animation */
