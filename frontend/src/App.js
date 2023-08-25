@@ -163,16 +163,10 @@ useEffect(() => {
               return {
                 fillColor: getColor(feature.properties.POP),
                 color: '#000',
-                fillOpacity: 0.8,
+                fillOpacity: 0.5,
               };
             },
             onEachFeature: (feature, layer) => {
-              layer.on('click', function () {
-                if (geoLayer) {
-                  geoLayer.setStyle({ fillOpacity: 0.8 });
-                  layer.setStyle({ fillOpacity: 1 });
-                }
-              });
 
               const tooltipContent = `Tract: ${feature.properties.TRACTCE10}\nTotal Population: ${feature.properties.POP}`;
               layer.bindTooltip(tooltipContent).openTooltip();

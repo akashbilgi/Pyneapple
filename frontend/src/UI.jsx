@@ -47,18 +47,18 @@ const DynamicDropdown = ({ label, id, value, handleApiParamChange, options }) =>
 
 const ApiTypeSelector = ({ apiType, handleApiTypeChange }) => (
   <div className="select-container">
-    <label htmlFor="apiType">API Type:</label>
+    <label htmlFor="apiType">Algorithm Type:</label>
     <select
       id="apiType"
       value={apiType}
       onChange={handleApiTypeChange}
       className="parameter-input"
     >
-      <option value="emp">emp</option>
-      <option value="generalizedP">generalizedP</option>
-      <option value="libraryMaxP">libraryMaxP</option>
-      <option value="ScalableMaxP">ScalableMaxP</option>
-      <option value="compareMaxP">compareMaxP</option>
+      <option value="emp">Expressive max-p</option>
+      <option value="generalizedP">Generalized p</option>
+      <option value="libraryMaxP">Max-p Pysal</option>
+      <option value="ScalableMaxP">Scalable Max-p</option>
+      <option value="compareMaxP">Max-p Comparision</option>
     </select>
   </div>
 );
