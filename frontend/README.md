@@ -4,7 +4,7 @@ This repository contains the frontend code for the Pyneapple App, a demo applica
 
 
 <div style="text-align:center;">
-  <img src="https://github.com/akashbilgi/Pyneapple/assets/44390281/6244cd17-7ba9-46ae-a419-248ddd39f673.gif" alt="Pyneapple App Demo" width="70%">
+  <img src="https://github.com/akashbilgi/Pyneapple/assets/44390281/6244cd17-7ba9-46ae-a419-248ddd39f673.gif" alt="Pyneapple App Demo" width="100%">
 </div>
 
 Click [here](https://github.com/akashbilgi/Pyneapple/assets/44390281/6244cd17-7ba9-46ae-a419-248ddd39f673.gif) to view the full GIF video.
