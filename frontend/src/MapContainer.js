@@ -28,7 +28,7 @@ const MapContainer = ({ selectedFile, labels, mapIndex }) => {
               return {
                 fillColor: getColor(feature.properties.POP),
                 color: '#000',
-                fillOpacity: 0.8,
+                fillOpacity: 0.5,
               };
             },
             onEachFeature: (feature, layer) => {
